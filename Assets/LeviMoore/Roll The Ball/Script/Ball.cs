@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 
 public class Ball : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class Ball : MonoBehaviour
     private Transform defaultParant;
 
     public GameObject messageText;
-    public Text coinsText;
+    //public Text coinsText;
     private int coinTotal;
     private int coinCount;
     public bool lastLevel;
@@ -34,7 +34,7 @@ public class Ball : MonoBehaviour
         GetComponent<Rigidbody>().maxAngularVelocity = maxAngularVelocity;
 
         coinTotal = GameObject.FindGameObjectsWithTag("Coin").Length;
-        coinsText.text = "Coins: " + coinCount.ToString() + "/" + coinTotal.ToString();
+        //coinsText.text = "Coins: " + coinCount.ToString() + "/" + coinTotal.ToString();
         defaultParant = transform.parent;
     }
 
@@ -88,7 +88,7 @@ public class Ball : MonoBehaviour
         {
             Destroy(_hit.gameObject);
             coinCount++;
-            coinsText.text = "Coins: " + coinCount.ToString() + "/" + coinTotal.ToString();
+            //coinsText.text = "Coins: " + coinCount.ToString() + "/" + coinTotal.ToString();
         }
         else if (_hit.tag == "Next")
         {
@@ -123,10 +123,10 @@ public class Ball : MonoBehaviour
 
     IEnumerator ShowMessage(string _msg)
     {
-        messageText.SetActive(true);
-        messageText.transform.FindChild("Text").GetComponent<Text>().text = _msg;
+        //messageText.SetActive(true);
+        //messageText.transform.FindChild("Text").GetComponent<Text>().text = _msg;
 
         yield return new WaitForSeconds(2);
-        messageText.SetActive(false);
+       // messageText.SetActive(false);
     }
 }
