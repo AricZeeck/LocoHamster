@@ -19,6 +19,8 @@ public class Checkpoint : MonoBehaviour {
 	{
 		if(col.gameObject.tag == "Player")
 		{
+            Debug.Log(this.transform.position);
+            Debug.Log(chkManager.cache_check_points.Count);
 			chkManager.cache_check_points.Add(this.transform.position);
 			Destroy (gameObject);
 		}
