@@ -23,6 +23,9 @@ public class Ball : MonoBehaviour
     private int coinCount;
     public bool lastLevel;
 
+	//instances
+	private CheckpointManager chkMngr;
+
 
     private void Start()
     {
@@ -36,6 +39,8 @@ public class Ball : MonoBehaviour
         coinTotal = GameObject.FindGameObjectsWithTag("Coin").Length;
         //coinsText.text = "Coins: " + coinCount.ToString() + "/" + coinTotal.ToString();
         defaultParant = transform.parent;
+		chkMngr = GameObject.FindGameObjectWithTag("checkpointManager")
+			.GetComponent<CheckpointManager>();
     }
 
     private void Update()
@@ -56,7 +61,7 @@ public class Ball : MonoBehaviour
 
         if (transform.position.y < -5)
         {
-            Application.LoadLevel(Application.loadedLevel);
+			ResetPosToLastCheckpoint();
         }
 
         /*if (Input.GetKeyDown(KeyCode.Escape))
@@ -129,4 +134,13 @@ public class Ball : MonoBehaviour
         yield return new WaitForSeconds(2);
        // messageText.SetActive(false);
     }
+
+	void ResetPosToLastCheckpoint()
+	{
+		//Grab last checkpoint location
+		//Change position to last checkpoint position
+		Vector3 grabbedCheckpointPosition = chkMngr.cache_check_points[chkMngr.cache_check_points.Count - 1];
+		Debug.Log (grabbedCheckpointPosition);
+		transform.position = grabbedCheckpointPosition;
+	}
 }
