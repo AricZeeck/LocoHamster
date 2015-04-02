@@ -5,6 +5,8 @@ public class Booster : MonoBehaviour
 {
     public float power;
     public Vector3 dir;
+	private Ball ball;
+	
 
     void OnTriggerEnter(Collider _hit)
     {
@@ -12,6 +14,9 @@ public class Booster : MonoBehaviour
         {
             _hit.rigidbody.velocity = Vector3.zero;
             _hit.rigidbody.AddForce(dir * power * 100);
+			ball = GameObject.FindGameObjectWithTag("Player")
+				.GetComponent<Ball>();
+			ball.inAir = true;
         }
     }
 }

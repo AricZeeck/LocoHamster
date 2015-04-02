@@ -23,6 +23,9 @@ public class Ball : MonoBehaviour
     private int coinCount;
     public bool lastLevel;
 
+	//public float newZCoordinate, newXCoordinate;
+	public bool inAir = false;
+
 	//instances
 	private CheckpointManager chkMngr;
 
@@ -62,7 +65,36 @@ public class Ball : MonoBehaviour
         if (transform.position.y < -5)
         {
 			ResetPosToLastCheckpoint();
+			inAir = false;
         }
+
+		if(inAir)
+		{
+			//Debug.Log ("IN AIR");
+
+			if(Input.GetKeyDown(KeyCode.W))
+			{
+				//float newZCoordinate = .02f;
+				//transform.position = Vector3.Lerp(transform.position,new Vector3(transform.position.x, transform.position.y, newZCoordinate),Time.fixedDeltaTime * 20);
+			}
+			if(Input.GetKeyDown(KeyCode.S))
+			{
+				//float newZCoordinate = -.02f;
+				//transform.position = Vector3.Lerp(transform.position,new Vector3(transform.position.x, transform.position.y, newZCoordinate),Time.fixedDeltaTime * 20);
+			}
+				
+			if(Input.GetKey(KeyCode.A))
+			{
+				this.rigidbody.AddForce(new Vector3(0,0,.5f));
+			}
+				
+			if(Input.GetKey(KeyCode.D))
+			{
+				this.rigidbody.AddForce(new Vector3(0,0,-.5f));
+			}
+				
+
+		}
 
         /*if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -72,6 +104,7 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (useTorque)
         {
             thisRigidbody.AddTorque(new Vector3(move.z, 0, -move.x) * moveSpeed);
@@ -83,7 +116,7 @@ public class Ball : MonoBehaviour
 
         if (Physics.Raycast(transform.position, -Vector3.up, groundRayLength) && jump)
         {
-            thisRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+           	thisRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
     }
 
@@ -115,6 +148,7 @@ public class Ball : MonoBehaviour
         }
         else if (_hit.tag == "Platform")
         {
+			Debug.Log("Allo m8");
             transform.parent = _hit.transform;
         }
     }
@@ -125,6 +159,14 @@ public class Ball : MonoBehaviour
             transform.parent = defaultParant;
         }
     }
+
+	void OnCollisionEnter(Collision col)
+	{
+		if(col.gameObject.tag == "Platform")
+		{
+			inAir = false;
+		}
+	}
 
     IEnumerator ShowMessage(string _msg)
     {
@@ -139,8 +181,15 @@ public class Ball : MonoBehaviour
 	{
 		//Grab last checkpoint location
 		//Change position to last checkpoint position
-		Vector3 grabbedCheckpointPosition = chkMngr.cache_check_points[chkMngr.cache_check_points.Count - 1];
-		Debug.Log (grabbedCheckpointPosition);
-		transform.position = grabbedCheckpointPosition;
+		if(chkMngr.cache_check_points.Count == 0)
+		{
+			Application.LoadLevel(0);
+			return;
+		} else {
+			Vector3 grabbedCheckpointPosition = chkMngr.cache_check_points[chkMngr.cache_check_points.Count - 1];
+			Debug.Log (grabbedCheckpointPosition);
+			transform.position = grabbedCheckpointPosition;
+		}
+
 	}
 }
