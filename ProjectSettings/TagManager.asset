@@ -7,7 +7,7 @@ TagManager:
   - Next
   - Platform
   - Speed
-  - 
+  - checkpointManager
   - NodeGenerator
   - Node
   - Selection
