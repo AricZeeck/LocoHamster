@@ -118,6 +118,11 @@ public class Ball : MonoBehaviour
         {
            	thisRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
+
+		//thruster logic
+		/*if (Input.GetKeyDown (KeyCode.T)) {
+			rigidbody.AddForce(transform.forward * 2000f);
+		}*/
     }
 
     void OnTriggerEnter(Collider _hit)
